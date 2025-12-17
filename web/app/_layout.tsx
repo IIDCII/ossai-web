@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur';
 import { Slot } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, Image, StyleSheet, View } from 'react-native';
 
 export default function RootLayout() {
   const [isOverlayVisible, setIsOverlayVisible] = useState(true);
@@ -31,7 +31,11 @@ export default function RootLayout() {
           {/* High intensity blur for the frosted effect */}
           <BlurView intensity={80} style={StyleSheet.absoluteFill} tint="dark">
              <View style={styles.centered}>
-                <Text style={{color: 'white', fontSize: 24}}>Welcome</Text>
+                <Image 
+                  source={require('../assets/images/name_logo_white.png')} 
+                  style={styles.logo}
+                  resizeMode="contain" 
+                />
              </View>
           </BlurView>
         </Animated.View>
@@ -45,11 +49,14 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 100, // Make sure this is high enough to sit on top
-    backgroundColor: 'rgba(0,0,0,0.1)', // Slight dark tint base
+    backgroundColor: 'rgba(0,0,0,0.3)', // Slight dark tint base
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    width: '80%',
   }
 });
