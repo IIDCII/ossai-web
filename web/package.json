@@ -2,7 +2,10 @@
   "name": "ossai_web",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "homepage": "https://IIDCII.github.io/ossai-web",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
@@ -43,6 +46,7 @@
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "gh-pages": "^6.3.0",
     "react-native-svg-transformer": "^1.5.2",
     "typescript": "~5.9.2"
   },
