@@ -92,8 +92,8 @@ export default function Index() {
       >
       {/* --- NEWSLETTER SECTION --- */}
       <View style={styles.newsletterCard}>
-        <Text style={styles.newsletterTitle}>RSVP</Text>
-        <Text style={styles.newsletterSub}>Join the Ossai community</Text>
+        <Text style={styles.newsletterTitle}>NEWSLETTER</Text>
+        <Text style={styles.newsletterSub}>Sign up for events and drops</Text>
         
         {/* Container for Input and Button (Now Stacked) */}
         <View style={styles.formContainer}>
