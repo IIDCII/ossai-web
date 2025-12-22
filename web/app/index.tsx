@@ -1,57 +1,57 @@
 import { BlurView } from 'expo-blur';
 import { useState } from 'react';
 import {
-  ActivityIndicator,
-  Image,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Image,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
 
 const HEADER_HEIGHT = 110;
 
 export default function Index() {
-  // 1. STATE DEFINITIONS
-  const [email, setEmail] = useState('');
-  // Status: 'idle' | 'loading' | 'success' | 'error'
-  const [status, setStatus] = useState('idle');
+    // 1. STATE DEFINITIONS
+    const [email, setEmail] = useState('');
+    // Status: 'idle' | 'loading' | 'success' | 'error'
+    const [status, setStatus] = useState('idle');
 
-  // 2. LOGIC HANDLERS
-  const handleJoin = () => {
-    if (status === 'loading') return;
+    // 2. LOGIC HANDLERS
+    const handleJoin = () => {
+        if (status === 'loading') return;
 
-    // Basic Validation
-    if (!email.includes('@') || !email.includes('.')) {
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 2000);
-      return;
-    }
+        // Basic Validation
+        if (!email.includes('@') || !email.includes('.')) {
+            setStatus('error');
+            setTimeout(() => setStatus('idle'), 2000);
+            return;
+        }
 
-    // Simulate API Call
-    setStatus('loading');
-    
-    setTimeout(() => {
-      setStatus('success');
-      setEmail(''); // Clear input
-      setTimeout(() => setStatus('idle'), 3000);
-    }, 1500);
-  };
+        // Simulate API Call
+        setStatus('loading');
 
-  const getStatusColor = () => {
-    switch(status) {
-      case 'success': return '#aaffbfff'; // Green
-      case 'error': return '#ff918bff';   // Red
-      case 'loading': return '#666666'; // Grey (for spinner)
-      default: return '#FFFFFF';        // White
-    }
-  };
+        setTimeout(() => {
+            setStatus('success');
+            setEmail(''); // Clear input
+            setTimeout(() => setStatus('idle'), 3000);
+        }, 1500);
+    };
 
-  const webStyle = `
+    const getStatusColor = () => {
+        switch (status) {
+            case 'success': return '#aaffbfff'; // Green
+            case 'error': return '#ff918bff';   // Red
+            case 'loading': return '#666666'; // Grey (for spinner)
+            default: return '#FFFFFF';        // White
+        }
+    };
+
+    const webStyle = `
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
@@ -62,241 +62,241 @@ export default function Index() {
     }
   `;
 
-  const [isFocused, setIsFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
 
-  // 4. THE UI
-  return (
-    <View style={styles.container}>
-      {Platform.OS === 'web' && (
-      <style type="text/css">{webStyle}</style>
-      )}
+    // 4. THE UI
+    return (
+        <View style={styles.container}>
+            {Platform.OS === 'web' && (
+                <style type="text/css">{webStyle}</style>
+            )}
 
-      <Image 
-        source={require('../assets/images/base_opt_white.png')} 
-        style={styles.backgroundImage}
-        resizeMode="contain" // Keeps aspect ratio based on huge dimensions below
-      />
-      
-      {/* --- LAYER 1: Scrollable Content --- */}
-      <ScrollView 
-        contentContainerStyle={{ 
-          paddingTop: HEADER_HEIGHT + 20, 
-          paddingBottom: 40,
-          paddingHorizontal: 20,
-          flexGrow: 1, // Use flexGrow instead of flex: 1 for ScrollViews
-          alignItems:'center',
-        }}
-        indicatorStyle="white"
-        keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}
-      >
-      {/* --- NEWSLETTER SECTION --- */}
-      <View style={styles.newsletterCard}>
-        <Text style={styles.newsletterTitle}>NEWSLETTER</Text>
-        <Text style={styles.newsletterSub}>Sign up for events and drops</Text>
-        
-        {/* Container for Input and Button (Now Stacked) */}
-        <View style={styles.formContainer}>
-            <TextInput 
-              style={[
-                styles.input, 
-                status === 'error' && { borderWidth: 1, borderColor: '#FF3B30' }
-              ]}
-              // 2. Logic to hide placeholder on focus
-              placeholder={isFocused ? '' : "Enter your email"} 
-              placeholderTextColor="#666"
-              
-              // 3. Add these two handlers
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-
-              // ... keep existing props
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={(text) => {
-                setEmail(text);
-                if (status === 'error') setStatus('idle'); 
-              }}
+            <Image
+                source={require('@/assets/images/base_opt_white.png')}
+                style={styles.backgroundImage}
+                resizeMode="contain" // Keeps aspect ratio based on huge dimensions below
             />
 
-            {/* DYNAMIC ENTER BUTTON */}
-            {/* DYNAMIC TEXT BUTTON */}
-            <TouchableOpacity 
-              style={styles.textButton} 
-              onPress={handleJoin}
-              activeOpacity={0.7}
-              disabled={status === 'loading' || status === 'success'}
+            {/* --- LAYER 1: Scrollable Content --- */}
+            <ScrollView
+                contentContainerStyle={{
+                    paddingTop: HEADER_HEIGHT + 20,
+                    paddingBottom: 40,
+                    paddingHorizontal: 20,
+                    flexGrow: 1, // Use flexGrow instead of flex: 1 for ScrollViews
+                    alignItems: 'center',
+                }}
+                indicatorStyle="white"
+                keyboardDismissMode="on-drag"
+                showsVerticalScrollIndicator={false}
             >
-              {status === 'loading' ? (
-                <ActivityIndicator color={getStatusColor()} />
-              ) : (
-                <Text style={[styles.textButtonLabel, { color: getStatusColor() }]}>
-                  {status === 'success' ? 'Sent' : status === 'error' ? 'Retry' : 'Enter'}
-                </Text>
-              )}
-            </TouchableOpacity>
+                {/* --- NEWSLETTER SECTION --- */}
+                <View style={styles.newsletterCard}>
+                    <Text style={styles.newsletterTitle}>NEWSLETTER</Text>
+                    <Text style={styles.newsletterSub}>Sign up for events and drops</Text>
+
+                    {/* Container for Input and Button (Now Stacked) */}
+                    <View style={styles.formContainer}>
+                        <TextInput
+                            style={[
+                                styles.input,
+                                status === 'error' && { borderWidth: 1, borderColor: '#FF3B30' }
+                            ]}
+                            // 2. Logic to hide placeholder on focus
+                            placeholder={isFocused ? '' : "Enter your email"}
+                            placeholderTextColor="#666"
+
+                            // 3. Add these two handlers
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+
+                            // ... keep existing props
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            value={email}
+                            onChangeText={(text) => {
+                                setEmail(text);
+                                if (status === 'error') setStatus('idle');
+                            }}
+                        />
+
+                        {/* DYNAMIC ENTER BUTTON */}
+                        {/* DYNAMIC TEXT BUTTON */}
+                        <TouchableOpacity
+                            style={styles.textButton}
+                            onPress={handleJoin}
+                            activeOpacity={0.7}
+                            disabled={status === 'loading' || status === 'success'}
+                        >
+                            {status === 'loading' ? (
+                                <ActivityIndicator color={getStatusColor()} />
+                            ) : (
+                                <Text style={[styles.textButtonLabel, { color: getStatusColor() }]}>
+                                    {status === 'success' ? 'Sent' : status === 'error' ? 'Retry' : 'Enter'}
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                {/* --- FOOTER --- */}
+                <View style={styles.footer}>
+                    <View style={styles.divider} />
+                    <Text style={styles.copyright}>
+                        © Ossai 2025. All rights reserved.
+                    </Text>
+                </View>
+            </ScrollView>
+
+            {/* --- LAYER 2: Header --- */}
+            <BlurView intensity={30} tint="dark" style={styles.header}>
+                <SafeAreaView style={styles.safeArea}>
+                    <View style={styles.headerContent}>
+                        <Image
+                            source={require('@/assets/images/base_opt_white.png')}
+                            style={styles.logo}
+                            resizeMode="contain"
+                        />
+                    </View>
+                </SafeAreaView>
+            </BlurView>
+
         </View>
-      </View>
-
-        {/* --- FOOTER --- */}
-        <View style={styles.footer}>
-            <View style={styles.divider} />
-            <Text style={styles.copyright}>
-              © Ossai 2025. All rights reserved.
-            </Text>
-        </View>
-      </ScrollView>
-
-      {/* --- LAYER 2: Header --- */}
-      <BlurView intensity={30} tint="dark" style={styles.header}>
-        <SafeAreaView style={styles.safeArea}>
-          <View style={styles.headerContent}>
-            <Image 
-              source={require('../assets/images/base_opt_white.png')} 
-              style={styles.logo}
-              resizeMode="contain" 
-            />
-          </View>
-        </SafeAreaView>
-      </BlurView>
-
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-    // IMPORTANT FOR WEB: This clips the overflowing image 
-    // so it doesn't cause browser scrollbars.
-    overflow: 'hidden', 
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#000000',
+        // IMPORTANT FOR WEB: This clips the overflowing image 
+        // so it doesn't cause browser scrollbars.
+        overflow: 'hidden',
+    },
 
-  // --- NEW BACKGROUND STYLE ---
-  backgroundImage: {
-    position: 'absolute',
-    
-    // 1. INCREASE SIZE (Keep these equal to maintain aspect ratio)
-    width: 800,   
-    height: 800, 
-    
-    // 2. ADJUST HORIZONTAL POSITION
-    // Set this to exactly negative half of the width (-600)
-    right: -400, 
-    
-    // 3. ADJUST VERTICAL POSITION (Optional)
-    // To center it vertically relative to the screen:
-    top: '50%', 
-    marginTop: -400, // Set this to negative half of the height
-    
-    // Visuals
-    opacity: 0.12, 
-    pointerEvents: 'none', 
-  },
-  logo: {
-    width: 100,  // Reduced size since it's in the header
-    height: 100, // Added height
-  },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: HEADER_HEIGHT,
-    zIndex: 100,
-    overflow: 'hidden',
-  },
-  safeArea: {
-    flex: 1,
-  },
-  headerContent: {
-    flex: 1,
-    justifyContent: 'center', 
-    alignItems: 'center',    
-  },
-  heading: {
-    fontSize: 32,
-    fontWeight: '800',
-    marginBottom: 20,
-    color: '#FFFFFF',
-    marginTop: 40, // Push title down a bit visually
-  },
-  // Newsletter Styles
-  newsletterCard: {
-    width: '100%', 
-    marginTop: 20,
-    paddingVertical: 30, // More vertical padding for breathing room
-    paddingHorizontal: 20,
-    borderRadius: 16,
-    alignItems: 'center', // <--- Centers the Title and Subtitle
-  },
-  
-  newsletterTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  
-  newsletterSub: {
-    color: '#888',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  
-  formContainer: {
-    width: '100%',
-    alignItems: 'center', // <--- Centers the Input and Button horizontally
-    gap: 12,
-  },
-  
-  input: {
-    width: '90%',        // <--- Uses 90% width so it looks centered/framed
-    maxWidth: 400,       // <--- Prevents it from getting too wide on tablets/web
-    height: 50,
-    backgroundColor: '#1C1C1E', 
-    opacity:0.8,
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    color: 'white', 
-    textAlign: 'center', // <--- Optional: Centers the text *inside* the input
-    borderWidth: 0,
-  },
+    // --- NEW BACKGROUND STYLE ---
+    backgroundImage: {
+        position: 'absolute',
 
-  textButton: {
-    marginTop: 10,       // distinct space from the input
-    paddingVertical: 10, // Good touch target size
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+        // 1. INCREASE SIZE (Keep these equal to maintain aspect ratio)
+        width: 800,
+        height: 800,
 
-  // The actual text style
-  textButtonLabel: {
-    fontSize: 16,
-    fontWeight: '600', // Semi-bold looks better for text buttons
-    letterSpacing: 0.5,
-    textTransform: 'uppercase', // Optional: makes it look more like a "control"
-  },
-  
-  // Footer
-  footer: {
-    marginTop: 'auto', 
-    alignItems: 'center',
-    paddingVertical: 20,
-    width: '100%',
-  },
-  divider: {
-    width: 40,
-    height: 1,
-    backgroundColor: '#646363ff',
-    marginBottom: 20,
-  },
-  copyright: {
-    color: '#797979ff', 
-    fontSize: 12,
-  },
+        // 2. ADJUST HORIZONTAL POSITION
+        // Set this to exactly negative half of the width (-600)
+        right: -400,
+
+        // 3. ADJUST VERTICAL POSITION (Optional)
+        // To center it vertically relative to the screen:
+        top: '50%',
+        marginTop: -400, // Set this to negative half of the height
+
+        // Visuals
+        opacity: 0.12,
+        pointerEvents: 'none',
+    },
+    logo: {
+        width: 100,  // Reduced size since it's in the header
+        height: 100, // Added height
+    },
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: HEADER_HEIGHT,
+        zIndex: 100,
+        overflow: 'hidden',
+    },
+    safeArea: {
+        flex: 1,
+    },
+    headerContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    heading: {
+        fontSize: 32,
+        fontWeight: '800',
+        marginBottom: 20,
+        color: '#FFFFFF',
+        marginTop: 40, // Push title down a bit visually
+    },
+    // Newsletter Styles
+    newsletterCard: {
+        width: '100%',
+        marginTop: 20,
+        paddingVertical: 30, // More vertical padding for breathing room
+        paddingHorizontal: 20,
+        borderRadius: 16,
+        alignItems: 'center', // <--- Centers the Title and Subtitle
+    },
+
+    newsletterTitle: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 4,
+        textAlign: 'center',
+    },
+
+    newsletterSub: {
+        color: '#888',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+
+    formContainer: {
+        width: '100%',
+        alignItems: 'center', // <--- Centers the Input and Button horizontally
+        gap: 12,
+    },
+
+    input: {
+        width: '90%',        // <--- Uses 90% width so it looks centered/framed
+        maxWidth: 400,       // <--- Prevents it from getting too wide on tablets/web
+        height: 50,
+        backgroundColor: '#1C1C1E',
+        opacity: 0.8,
+        borderRadius: 12,
+        paddingHorizontal: 15,
+        color: 'white',
+        textAlign: 'center', // <--- Optional: Centers the text *inside* the input
+        borderWidth: 0,
+    },
+
+    textButton: {
+        marginTop: 10,       // distinct space from the input
+        paddingVertical: 10, // Good touch target size
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    // The actual text style
+    textButtonLabel: {
+        fontSize: 16,
+        fontWeight: '600', // Semi-bold looks better for text buttons
+        letterSpacing: 0.5,
+        textTransform: 'uppercase', // Optional: makes it look more like a "control"
+    },
+
+    // Footer
+    footer: {
+        marginTop: 'auto',
+        alignItems: 'center',
+        paddingVertical: 20,
+        width: '100%',
+    },
+    divider: {
+        width: 40,
+        height: 1,
+        backgroundColor: '#646363ff',
+        marginBottom: 20,
+    },
+    copyright: {
+        color: '#797979ff',
+        fontSize: 12,
+    },
 });
