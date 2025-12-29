@@ -5,11 +5,12 @@
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
-        "scheme": "ossaiweb",
+        "scheme": "ossai-web",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
         "web": {
             "output": "static",
+            "bundler": "metro",
             "favicon": "@/assets/images/favicon.png"
         },
         "plugins": [
@@ -17,7 +18,8 @@
         ],
         "experiments": {
             "typedRoutes": true,
-            "reactCompiler": true
+            "reactCompiler": true,
+            "baseUrl": "/ossai-web"
         }
     }
 }
