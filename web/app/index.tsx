@@ -72,7 +72,7 @@ export default function Index() {
             )}
 
             <Image
-                source={require('@/assets/images/base_opt_white.png')}
+                source={require('../assets/images/base_opt_white.png')}
                 style={styles.backgroundImage}
                 resizeMode="contain" // Keeps aspect ratio based on huge dimensions below
             />
@@ -153,7 +153,7 @@ export default function Index() {
                 <SafeAreaView style={styles.safeArea}>
                     <View style={styles.headerContent}>
                         <Image
-                            source={require('@/assets/images/base_opt_white.png')}
+                            source={require('../assets/images/base_opt_white.png')}
                             style={styles.logo}
                             resizeMode="contain"
                         />

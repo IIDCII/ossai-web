@@ -32,7 +32,7 @@ export default function RootLayout() {
                     <BlurView intensity={80} style={StyleSheet.absoluteFill} tint="dark">
                         <View style={styles.centered}>
                             <Image
-                                source={require('@/assets/images/name_logo_white.png')}
+                                source={require('../assets/images/name_logo_white.png')}
                                 style={styles.logo}
                                 resizeMode="contain"
                             />
