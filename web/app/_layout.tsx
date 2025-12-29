@@ -26,20 +26,20 @@ export default function RootLayout() {
         <View style={{ flex: 1 }}>
             <Slot />
 
-            {/* {isOverlayVisible && ( */}
-            {/*     <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}> */}
-            {/* High intensity blur for the frosted effect */}
-            {/*         <BlurView intensity={80} style={StyleSheet.absoluteFill} tint="dark"> */}
-            {/*             <View style={styles.centered}> */}
-            {/*                 <Image */}
-            {/*                     source={require('../assets/images/name_logo_white.png')} */}
-            {/*                     style={styles.logo} */}
-            {/*                     resizeMode="contain" */}
-            {/*                 /> */}
-            {/*             </View> */}
-            {/*         </BlurView> */}
-            {/*     </Animated.View> */}
-            {/* )} */}
+            {isOverlayVisible && (
+                <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
+                    {/* High intensity blur for the frosted effect */}
+                    <BlurView intensity={80} style={StyleSheet.absoluteFill} tint="dark">
+                        <View style={styles.centered}>
+                            <Image
+                                source={require('../assets/images/name_logo_white.png')}
+                                style={styles.logo}
+                                resizeMode="contain"
+                            />
+                        </View>
+                    </BlurView>
+                </Animated.View>
+            )}
         </View>
     );
 }
