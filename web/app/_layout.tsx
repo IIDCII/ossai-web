@@ -14,7 +14,7 @@ export default function RootLayout() {
             Animated.timing(fadeAnim, {
                 toValue: 0,
                 duration: 500,
-                useNativeDriver: true, // Note: On web, useNativeDriver doesn't matter much, but good practice
+                useNativeDriver: false, // Note: On web, useNativeDriver doesn't matter much, but good practice
             }),
         ]).start(() => {
             setIsOverlayVisible(false); // Unmount when done
