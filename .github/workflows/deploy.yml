@@ -2,10 +2,8 @@ name: Deploy Web to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'web/**' # Only trigger if changes happen in the web folder
+    branches: [ main ]
+    paths: [ 'web/**' ]
 
 permissions:
   contents: read
@@ -17,15 +15,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./web # <--- Crucial: Sets context to your subfolder
-
+        working-directory: ./web
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: false
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -38,12 +37,20 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npx expo export --platform web
+        run: npm run build  # npx expo export --platform web
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: web/dist # Expo defaults to 'dist' for static output
+          path: ./dist  # Relative to ./web
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
